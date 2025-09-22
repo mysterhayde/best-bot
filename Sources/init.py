@@ -1,4 +1,5 @@
 import	os
+import	time
 import	requests
 from	dotenv		import load_dotenv
 
@@ -10,6 +11,7 @@ def	init_user_dict(ft_user_list, ft_token_access):
 		request = requests.get(f"https://api.intra.42.fr/v2/users/{login}", headers=auth_info, timeout=15)
 		request.raise_for_status()
 		user_dict[login] = request.json()["location"]
+		time.sleep(1)
 	return user_dict
 
 
