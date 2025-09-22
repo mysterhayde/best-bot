@@ -17,13 +17,13 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-	await bot.change_presence(status=discord.Status.online, activity=discord.Game('Work in progress'))
+	await bot.change_presence(status=discord.Status.online, activity=discord.Game('Big Brother is watching you'))
 	get_users_state.start()
 
 @tasks.loop(minutes=5)
 async def get_users_state():
 	global ft_user_location_dict
-	channel_id = 1258451290619641909
+	channel_id = 1419759742200446986
 
 	auth_info = {"Authorization": f"Bearer {ft_token_access}"}
 	get_access_token()
