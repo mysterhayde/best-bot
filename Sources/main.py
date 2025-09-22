@@ -24,7 +24,6 @@ async def on_ready():
 async def get_users_state():
 	global ft_user_location_dict
 	channel_id = 1258451290619641909
-	channel = bot.get_channel(channel_id)
 
 	auth_info = {"Authorization": f"Bearer {ft_token_access}"}
 	get_access_token()
@@ -36,6 +35,7 @@ async def get_users_state():
 			request.raise_for_status()
 			current_location = request.json().get("location")
 			if (current_location != ft_user_location_dict.get(login)):
+				channel = bot.get_channel(channel_id)
 				if not channel:
 					print("Error invalid channel")
 				elif (current_location != None):
@@ -46,8 +46,6 @@ async def get_users_state():
 		except Exception as error_id:
 			print(f"Error {error_id} during verification of {login}")
 		await asyncio.sleep(1)
-	await channel.send("2 minutes")
-	print (ft_user_location_dict)
 
 def get_access_token():
 	global ft_token_exp, ft_token_access

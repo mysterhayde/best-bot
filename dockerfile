@@ -5,4 +5,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY Sources .
 RUN useradd -m botuser
 USER botuser
-CMD ["python", "bot.py"]
+CMD ["python", "main.py"]
