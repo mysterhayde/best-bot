@@ -1,5 +1,6 @@
 import	discord
 import	requests
+import	time
 import	asyncio
 from 	discord.ext	import commands, tasks
 from	init		import load_env, init_user_dict
@@ -25,8 +26,8 @@ async def get_users_state():
 	global ft_user_location_dict
 	channel_id = 1419759742200446986
 
-	auth_info = {"Authorization": f"Bearer {ft_token_access}"}
 	get_access_token()
+	auth_info = {"Authorization": f"Bearer {ft_token_access}"}
 	for login in ft_user_list:
 		try:
 			request = await asyncio.to_thread(
@@ -50,7 +51,7 @@ async def get_users_state():
 def get_access_token():
 	global ft_token_exp, ft_token_access
 
-	if (ft_token_access == None or ft_token_exp < 30):
+	if (ft_token_access == None or time.time() > ft_token_exp - 60):
 		request = requests.post(
 			"https://api.intra.42.fr/oauth/token",
 			data={"grant_type": "client_credentials", "client_id": ft_uid,"client_secret": ft_secret},
@@ -59,7 +60,7 @@ def get_access_token():
 		request.raise_for_status()
 		data = request.json()
 		ft_token_access = data["access_token"]
-		ft_token_exp = data["expires_in"]
+		ft_token_exp = time.time() + data["expires_in"]
 
 
 
